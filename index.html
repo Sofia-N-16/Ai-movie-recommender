@@ -84,7 +84,8 @@
       }
 
       // 🛠 Replace with your deployed backend API URL
-      const apiUrl = `https://your-backend-url/recommend?user_id=${encodeURIComponent(user)}`;
+      const apiUrl = `https://ai-movie-api.onrender.com/recommend?user_id=${encodeURIComponent(user)}`;
+
 
       try {
         const response = await fetch(apiUrl);
