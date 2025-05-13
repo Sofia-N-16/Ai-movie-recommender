@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AI Movie Matchmaking</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f9f9f9;
+      margin: 0;
+      padding: 0;
+      text-align: center;
+    }
+
+    header {
+      background: #1f1f1f;
+      color: white;
+      padding: 20px;
+    }
+
+    main {
+      padding: 30px;
+    }
+
+    input, button {
+      padding: 10px;
+      font-size: 16px;
+      margin: 5px;
+      border-radius: 5px;
+    }
+
+    button {
+      background-color: #1f80e0;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #results {
+      margin-top: 30px;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+
+    li {
+      padding: 8px;
+      background: #fff;
+      margin: 5px auto;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>🎬 Personalized Movie Matchmaking</h1>
+    <p>Delivering movie recommendations with AI</p>
+  </header>
+
+  <main>
+    <h2>Get Your Recommendations</h2>
+    <p>Enter your username:</p>
+    <input type="text" id="userInput" placeholder="e.g. user1" />
+    <button onclick="getRecommendations()">Get Recommendations</button>
+
+    <div id="results"></div>
+  </main>
+
+  <script>
+    async function getRecommendations() {
+      const user = document.getElementById("userInput").value.trim();
+      const resultsDiv = document.getElementById("results");
+      resultsDiv.innerHTML = "🔍 Loading...";
+
+      if (!user) {
+        resultsDiv.innerHTML = "<p style='color:red;'>Please enter a username.</p>";
+        return;
+      }
+
+      // 🛠 Replace with your deployed backend API URL
+      const apiUrl = `https://your-backend-url/recommend?user_id=${encodeURIComponent(user)}`;
+
+      try {
+        const response = await fetch(apiUrl);
+        const data = await response.json();
+
+        if (data.error) {
+          resultsDiv.innerHTML = `<p style="color:red;">${data.error}</p>`;
+        } else {
+          const list = data.recommendations.map(movie => `<li>${movie}</li>`).join("");
+          resultsDiv.innerHTML = `<h3>🎯 Recommendations for <i>${user}</i>:</h3><ul>${list}</ul>`;
+        }
+      } catch (error) {
+        resultsDiv.innerHTML = "<p style='color:red;'>Could not connect to backend.</p>";
+      }
+    }
+  </script>
+
+</body>
+</html>
